@@ -1,0 +1,10 @@
+#!/bin/bash
+
+./resume_vm.sh
+
+for serviceLevel in 0 0.5 1; do
+	./exp_user_stresstest.sh 0 $serviceLevel
+done
+
+actuatorPid=$(cat childpid.txt)
+kill $actuatorPid
