@@ -88,7 +88,7 @@ setCap $cap
 
 # start local controller
 echo $preference
-ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference" #&> lc.log
+ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference" &> lc.log
 lcPid=$!
 #setCap 200
 

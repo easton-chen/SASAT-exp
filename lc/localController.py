@@ -223,7 +223,9 @@ def main():
 				averageServiceTime = getAverageServiceTime(latencies, options.setPoint)
 				
 				bestweights, besty = idealWeights(preference_order, numberRequestsHigherLatency, serviceLevel, averageServiceTime, numberTries = 1000)
-				
+				if(averageServiceTime == 0):
+					besty = 0
+
 				if(besty > Besty):
 					Besty = besty
 					Bestwights = copy.deepcopy(bestweights)

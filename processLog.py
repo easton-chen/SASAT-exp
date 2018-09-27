@@ -88,7 +88,7 @@ for directory in args:
 	weights = re.search("weights=(\[.+\])", BestLine).group(1)
 
 	internal_line = ','.join([str(preference_order),str(CPU_cap),str(concurrency),str(init_latency),weights]) + '\n'
-	external_line = ','.join([str(response_time), str(init_serviceLevel), str(new_serviceLevel)]) + '\n'
+	external_line = ','.join([str(init_latency), str(init_serviceLevel), str(new_serviceLevel)]) + '\n'
 
 	# write to files
 	traindata_internal = open("internal_data.txt", "a")
