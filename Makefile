@@ -13,3 +13,6 @@ clean:
 
 clear:
 	rm -rf exp_2018*
+
+delete:
+	rm -f internal_data.txt external_data.txt
