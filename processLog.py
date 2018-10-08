@@ -82,7 +82,7 @@ for directory in args:
 	response_time = int(re.search(":\(([0-9]+)",BestLine).group(1))
 	init_latency = int(re.search("init_latency=([0-9]+)",BestLine).group(1))
 	init_serviceLevel = int(re.search("init_serviceLevel=([0-9]+)",BestLine).group(1))
-	new_serviceLevel = int(re.search("rr=([0-9]+)",BestLine).group(1))
+	new_serviceLevel = int(re.search("rr\(y2\)=([0-9]+)",BestLine).group(1))
 	preference = int(re.search("preference=([0-9]+)",BestLine).group(1))
 	preference_order = preference_order_list[preference]
 	weights = re.search("weights=(\[.+\])", BestLine).group(1)
