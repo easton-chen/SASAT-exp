@@ -230,7 +230,6 @@ def main():
 					Besty = besty
 					Bestwights = copy.deepcopy(bestweights)
 					Bestrr = serviceLevel
-					Bestlatencies = latencies
 				
 		
 				'''
@@ -243,9 +242,9 @@ def main():
 				# Print statistics
 				latencyStat = quartiles(latencies)
 				if(controlNO == 3):
-					init_serviceLevel = serviceLevel
+					init_serviceLevel = 0
 					init_latency = latencyStat[5] * 1000
-				logging.info("Control No.{13} latency={0:.0f}:{1:.0f}:{2:.0f}:{3:.0f}:{4:.0f}:({5:.0f})ms y1={11:.2f} rr={6:.2f}% y3={12:.2f} weights={7} Y={8} cap={9} concurrency={10} thinktime={14} init_latency={15}ms init_serviceLevel={16}% preference={17}".format(
+				logging.info("Control No.{13} latency={0:.0f}:{1:.0f}:{2:.0f}:{3:.0f}:{4:.0f}:({5:.0f})ms y1={11:.2f} rr(y2)={6:.2f}% y3={12:.2f} weights={7} Y={8} cap={9} concurrency={10} thinktime={14} init_latency={15}ms init_serviceLevel={16}% preference={17}".format(
 					latencyStat[0] * 1000,
 					latencyStat[1] * 1000,
 					latencyStat[2] * 1000,
@@ -257,8 +256,8 @@ def main():
 					besty,
 					cap,
 					concurrency,
-					numberRequestsHigherLatency,
 					averageServiceTime,
+					numberRequestsHigherLatency,
 					controlNO,
 					thinktime,
 					init_latency,
@@ -291,26 +290,7 @@ def main():
 				logging.info("No traffic since last control interval.")
 			lastControl = _now
 			lastTotalRequests = totalRequests
-	'''
-	latencyStat = quartiles(Bestlatencies)
-	logging.info("BEST: latency={0:.0f}:{1:.0f}:{2:.0f}:{3:.0f}:{4:.0f}:({5:.0f})ms y1={11:.2f} rr={6:.2f}% y3={12:.2f} weights={7} Y={8} cap={9} concurrency={10} thinktime={13} init_latency={14}ms".format(
-					latencyStat[0] * 1000,
-					latencyStat[1] * 1000,
-					latencyStat[2] * 1000,
-					latencyStat[3] * 1000,
-					latencyStat[4] * 1000,
-					latencyStat[5] * 1000,
-					Bestrr * 100,
-					Bestweights,
-					Besty,
-					cap,
-					concurrency,
-					numberRequestsHigherLatency,
-					averageServiceTime,
-					thinktime,
-					init_latency
-				))	
-	'''
+	
 
 if __name__ == "__main__":
 	main()

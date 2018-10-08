@@ -4,11 +4,11 @@
 vmssh=czy@192.168.122.168
 vmName=vm1
 pole=0.5
-serviceLevel=$3
+serviceLevel=0
 cap=$1
 concurrency=$2
-thinktime=$5
-preference=$4
+thinktime=$4
+preference=$3
 httpmon=./httpmon
 actuator=./myactuator
 lc=./Desktop/brownout-rubis-icse2014/PHP/localController.py

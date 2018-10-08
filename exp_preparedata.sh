@@ -2,14 +2,13 @@
 
 ./resume_vm.sh
 
-for cap in 25 100 200 400; do
-	for concurrency in 200 800 3200; do
-		for serviceLevel in 0 0.5 1; do
-			for preference in 0 2 4; do
-				./exp_pattern.sh $cap $concurrency $serviceLevel $preference 0.1
-			done
+for cap in 350; do
+	for concurrency in 500 ; do
+		for preference in 1; do
+			./exp_pattern.sh $cap $concurrency $preference 0.05
 		done
 	done
+	
 done
 
 actuatorPid=$(cat childpid.txt)
