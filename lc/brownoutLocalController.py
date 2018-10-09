@@ -85,10 +85,15 @@ def main():
 	parser = OptionParser()
 	parser.add_option("--pole"    , type="float", help="use this pole value (default: %default)", default = 0.9)
 	parser.add_option("--setPoint", type="float", help="keep maximum latency around this value (default: %default)", default = 1)
-	parser.add_option("--controlInterval", type="float", help="time between control iterations (default: %default)", default = 1)
-	parser.add_option("--measureInterval", type="float", help="act based on maximum latency this far in the past (default: %default)", default = 5)
+	parser.add_option("--serviceLevel", type="float", help="service level (default: %default)", default = 0.5)
+	parser.add_option("--cap", type="int", help="max CPU usage (default: %default)", default = 400)
+	parser.add_option("--concurrency", type="int", help="http client thread (default: %default)", default = 100)
+	parser.add_option("--thinktime", type="float", help="http client think time (default: %default)", default = 1)
+	parser.add_option("--controlInterval", type="float", help="time between control iterations (default: %default)", default = 2)
+	parser.add_option("--measureInterval", type="float", help="act based on maximum latency this far in the past (default: %default)", default = 3)
 	parser.add_option("--rmIp", type="string", help="send matching values to this IP (default: %default)", default = "192.168.122.1")
 	parser.add_option("--rmPort", type="int", help="send matching values to this UDP port (default: %default)", default = 2712)
+	parser.add_option("--preference", type="int", help="user preference of response time, serviceLevel and timeout (default: %default)", default = 0)
 	(options, args) = parser.parse_args()
 
 	# Setup socket to listen for latency reports
@@ -105,7 +110,7 @@ def main():
 	lastTotalRequests = 0
 	timestampedLatencies = [] # tuples of timestamp, latency
 	totalRequests = 0
-	serviceLevel = 0.5
+	serviceLevel = options.serviceLevel
 
 	# Control loop
 	while True:

@@ -18,7 +18,6 @@ url="192.168.122.168/PHP/RandomItem.php"
 if [ $IsAttr -eq 0 ]; then
 	lc=./Desktop/brownout-rubis-icse2014/PHP/brownoutLocalController.py
 fi
-echo $lc
 
 # Helper functions
 function setCap {
