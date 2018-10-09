@@ -12,9 +12,13 @@ preference=$3
 httpmon=./httpmon
 actuator=./myactuator
 lc=./Desktop/brownout-rubis-icse2014/PHP/localController.py
+IsAttr=$5
 url="192.168.122.168/PHP/RandomItem.php"
 
-
+if [ $IsAttr -eq 0 ]; then
+	lc=./Desktop/brownout-rubis-icse2014/PHP/brownoutLocalController.py
+fi
+echo $lc
 
 # Helper functions
 function setCap {
@@ -116,5 +120,7 @@ echo "start process.."
 cd ..
 poleId=`echo $pole | tr -d .`
 serviceLevelId=`echo $serviceLevel | tr -d .`
-./processLog.py $resultsdir 
-echo "end process.."
+if [ $IsAttr -eq 1];then
+	./processLog.py $resultsdir
+	echo "end process.."
+fi
