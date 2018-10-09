@@ -119,7 +119,7 @@ echo "start process.."
 cd ..
 poleId=`echo $pole | tr -d .`
 serviceLevelId=`echo $serviceLevel | tr -d .`
-if [ $IsAttr -eq 1];then
+if [ $IsAttr -eq 1 ];then
 	./processLog.py $resultsdir
 	echo "end process.."
 fi

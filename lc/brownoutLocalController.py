@@ -110,7 +110,7 @@ def main():
 	lastTotalRequests = 0
 	timestampedLatencies = [] # tuples of timestamp, latency
 	totalRequests = 0
-	serviceLevel = options.serviceLevel
+	serviceLevel = 0.5
 
 	# Control loop
 	while True:
