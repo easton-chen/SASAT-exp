@@ -70,6 +70,23 @@ def quartiles(a):
 
 	return ret
 
+def getNumberRequestsHigherLatency(latencies, setPoint):
+	compteur = 0
+	for i in latencies:
+		if i>setPoint:
+			compteur += 1
+	p_timeout = compteur/(len(latencies))
+	p_timeout *= 10	
+	return 1/(e**p_timeout)
+
+def getAverageServiceTime(latencies, setPoint):
+	p_avg = avg(latencies)/setPoint
+	a = 0.99290
+	b = 0.08692
+	c = -1.12247 
+	res = a + b * p_avg + c * p_avg * p_avg
+	return max(0, res)
+
 class UnixTimeStampFormatter(logging.Formatter):
 	def formatTime(self, record, datefmt = None):
 		return "{0:.6f}".format(record.created)
@@ -111,9 +128,27 @@ def main():
 	timestampedLatencies = [] # tuples of timestamp, latency
 	totalRequests = 0
 	serviceLevel = 0.5
+    lastServiceLevel = 0
+	cap = options.cap
+	concurrency = options.concurrency
+	thinktime = options.thinktime
+    flag = 0
+	weights = [0,0,0]
 
 	# Control loop
 	while True:
+        if serviceLevel - lastServiceLevel <= 0.01:
+            flag += 1
+        if flag == 3:
+			y1 = getNumberRequestsHigherLatency(latencies, setPoint)
+			y2 = serviceLevel
+			y3 = getAverageServiceTime(latencies, setPoint)
+			Y = y1 * weights[0] + y2 * weights[1] + y3 * weights[2]
+			line = ','.join([str(cap), str(concurrency),str(Y)]) + '\n'
+			vnv_data = open("../vnv_data.txt", "a")
+			vnv_data.write(line)
+			vnv_data.close()
+            break
 		# Wait for next control iteration or message from application
 		waitFor = max(ceil((lastControl + options.controlInterval - now()) * 1000), 1)
 		events = poll.poll(waitFor)
@@ -135,6 +170,7 @@ def main():
 			# Do we have new reports?
 			if latencies:
 				# Execute controller
+                lastServiceLevel = serviceLevel
 				serviceLevel = executeController(
 					pole = options.pole,
 					setPoint = options.setPoint,
@@ -167,7 +203,7 @@ def main():
 				logging.info("No traffic since last control interval.")
 			lastControl = _now
 			lastTotalRequests = totalRequests
-	s.close()
+	
 
 if __name__ == "__main__":
 	main()

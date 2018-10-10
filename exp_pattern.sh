@@ -114,12 +114,12 @@ wait $httpmonPid || true
 # stop lc
 #ssh $vmssh "pkill -f localController.py"
 
-echo "start process.."
 # done
 cd ..
 poleId=`echo $pole | tr -d .`
 serviceLevelId=`echo $serviceLevel | tr -d .`
 if [ $IsAttr -eq 1 ];then
+	echo "start process.."
 	./processLog.py $resultsdir
 	echo "end process.."
 fi
