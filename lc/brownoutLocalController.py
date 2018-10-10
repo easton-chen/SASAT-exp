@@ -128,18 +128,19 @@ def main():
 	timestampedLatencies = [] # tuples of timestamp, latency
 	totalRequests = 0
 	serviceLevel = 0.5
-    lastServiceLevel = 0
+    	lastServiceLevel = 0
 	cap = options.cap
 	concurrency = options.concurrency
 	thinktime = options.thinktime
-    flag = 0
+	setPoint = options.setPoint
+    	flag = 0
 	weights = [0.3,0.3,0.4]
 
 	# Control loop
 	while True:
-        if serviceLevel - lastServiceLevel <= 0.01:
-            flag += 1
-        if flag == 3:
+        	if serviceLevel - lastServiceLevel <= 0.01:
+        	    	flag += 1
+        	if flag == 3:
 			y1 = getNumberRequestsHigherLatency(latencies, setPoint)
 			y2 = serviceLevel
 			y3 = getAverageServiceTime(latencies, setPoint)
@@ -148,7 +149,7 @@ def main():
 			vnv_data = open("../vnv_data.txt", "a")
 			vnv_data.write(line)
 			vnv_data.close()
-            break
+        	    	break
 		# Wait for next control iteration or message from application
 		waitFor = max(ceil((lastControl + options.controlInterval - now()) * 1000), 1)
 		events = poll.poll(waitFor)
@@ -170,7 +171,7 @@ def main():
 			# Do we have new reports?
 			if latencies:
 				# Execute controller
-                lastServiceLevel = serviceLevel
+                		lastServiceLevel = serviceLevel
 				serviceLevel = executeController(
 					pole = options.pole,
 					setPoint = options.setPoint,
