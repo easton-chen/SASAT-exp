@@ -133,7 +133,7 @@ def main():
 	concurrency = options.concurrency
 	thinktime = options.thinktime
     flag = 0
-	weights = [0,0,0]
+	weights = [0.3,0.3,0.4]
 
 	# Control loop
 	while True:
