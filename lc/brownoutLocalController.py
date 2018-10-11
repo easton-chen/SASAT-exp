@@ -148,9 +148,8 @@ def main():
 			y3 = getAverageServiceTime(latencies, setPoint)
 			Y = y1 * weights[0] + y2 * weights[1] + y3 * weights[2]
 			line = ','.join([str(cap), str(concurrency),str(Y)]) + '\n'
-			vnv_data = open("../vnv_data.txt", "a")
-			vnv_data.write(line)
-			vnv_data.close()
+                        line = 'data: ' + line
+			logging.info(line)
         	    	break
 		# Wait for next control iteration or message from application
 		waitFor = max(ceil((lastControl + options.controlInterval - now()) * 1000), 1)
