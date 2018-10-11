@@ -162,8 +162,10 @@ def main():
 			# Do we have new reports?
 			if latencies:
                                 # if converge        
-                                if serviceLevel - lastServiceLevel <= 0.01:
+                                if abs(serviceLevel - lastServiceLevel) <= 0.01:
         	    	                flag += 1
+				else:
+					flag = 0
         	                if flag == 3:
                                         y1 = getNumberRequestsHigherLatency(latencies, setPoint)
                                         y2 = serviceLevel
@@ -188,7 +190,7 @@ def main():
 
 				# Print statistics
 				latencyStat = quartiles(latencies)
-				logging.info("latency={0:.0f}:{1:.0f}:{2:.0f}:{3:.0f}:{4:.0f}:({5:.0f})ms throughput={6:.0f}rps rr={7:.2f}% total={8} perf={9:.3f}".format(
+				logging.info("latency={0:.0f}:{1:.0f}:{2:.0f}:{3:.0f}:{4:.0f}:({5:.0f})ms throughput={6:.0f}rps rr={7:.2f}% total={8} perf={9:.3f} conv?={10}".format(
 					latencyStat[0] * 1000,
 					latencyStat[1] * 1000,
 					latencyStat[2] * 1000,
@@ -199,6 +201,7 @@ def main():
 					serviceLevel * 100,
 					totalRequests,
 					matchingValue,
+					lastServiceLevel - serviceLevel
 				))
 				with open('/tmp/serviceLevel.tmp', 'w') as f:
 					print(serviceLevel, file = f)
