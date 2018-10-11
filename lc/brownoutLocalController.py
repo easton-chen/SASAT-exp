@@ -140,17 +140,7 @@ def main():
 
 	# Control loop
 	while True:
-        	if serviceLevel - lastServiceLevel <= 0.01:
-        	    	flag += 1
-        	if flag == 3:
-			y1 = getNumberRequestsHigherLatency(latencies, setPoint)
-			y2 = serviceLevel
-			y3 = getAverageServiceTime(latencies, setPoint)
-			Y = y1 * weights[0] + y2 * weights[1] + y3 * weights[2]
-			line = ','.join([str(cap), str(concurrency),str(Y)]) + '\n'
-                        line = 'data: ' + line
-			logging.info(line)
-        	    	break
+        	
 		# Wait for next control iteration or message from application
 		waitFor = max(ceil((lastControl + options.controlInterval - now()) * 1000), 1)
 		events = poll.poll(waitFor)
@@ -171,6 +161,18 @@ def main():
 
 			# Do we have new reports?
 			if latencies:
+                                # if converge        
+                                if serviceLevel - lastServiceLevel <= 0.01:
+        	    	                flag += 1
+        	                if flag == 3:
+                                        y1 = getNumberRequestsHigherLatency(latencies, setPoint)
+                                        y2 = serviceLevel
+                                        y3 = getAverageServiceTime(latencies, setPoint)
+                                        Y = y1 * weights[0] + y2 * weights[1] + y3 * weights[2]
+                                        line = ','.join([str(cap), str(concurrency),str(Y)]) + '\n'
+                                        line = 'data: ' + line
+                                        logging.info(line)
+                                        break
 				# Execute controller
                 		lastServiceLevel = serviceLevel
 				serviceLevel = executeController(
