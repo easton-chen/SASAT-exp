@@ -138,7 +138,7 @@ def main():
     	flag = 0
         preference_order_list = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]]
 	preference_order = preference_order_list[options.preference]
-        weights = []
+        weights = [0, 0, 0]
 	weights[preference_order[0]] = 0.6
         weights[preference_order[1]] = 0.3
         weights[preference_order[2]] = 0.1
