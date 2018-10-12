@@ -136,7 +136,12 @@ def main():
 	thinktime = options.thinktime
 	setPoint = options.setPoint
     	flag = 0
-	weights = [0.3,0.3,0.4]
+        preference_order_list = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]]
+	preference_order = preference_order_list[options.preference]
+	weights[preference_order[0]] = 0.6
+        weights[preference_order[1]] = 0.3
+        weights[preference_order[2]] = 0.1
+
 
 	# Control loop
 	while True:

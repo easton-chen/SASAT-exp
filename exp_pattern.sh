@@ -122,4 +122,6 @@ if [ $IsAttr -eq 1 ];then
 	echo "start process.."
 	./processLog.py $resultsdir
 	echo "end process.."
+else
+	./vnvProcessLog.py $resultsdir
 fi
