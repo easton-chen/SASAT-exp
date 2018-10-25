@@ -91,10 +91,10 @@ for directory in args:
 	internal_line = ','.join([str(init_latency), weights, str(new_serviceLevel)]) + '\n'
 
 	# write to files
-	traindata_internal = open("internal_data.txt", "a")
+	traindata_internal = open("internal_data_new.txt", "a")
 	traindata_internal.write(internal_line)
 	traindata_internal.close()
-	traindata_external = open("external_data.txt", "a")
+	traindata_external = open("external_data_new.txt", "a")
 	traindata_external.write(external_line)
 	traindata_external.close()
 	print("data writen to file")

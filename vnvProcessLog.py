@@ -48,10 +48,10 @@ for directory in args:
 	
 
 	# write to files
-    if data:
-        data += '\n'
-        vnv_data = open("vnv_data.txt", "a")
-        vnv_data.write(data)
-        vnv_data.close()
-        print("data writen to file")
+	if data:
+	    	data += '\n'
+	    	vnv_data = open("vnv_data.txt", "a")
+	    	vnv_data.write(data)
+	    	vnv_data.close()
+	    	print("data writen to file")
 

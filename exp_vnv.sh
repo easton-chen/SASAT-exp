@@ -2,12 +2,13 @@
 
 ./resume_vm.sh
 
-IsAttr=0
+# 1 for brownout, 2 for ours
+IsVNV=1
 
-for cap in 400; do
-	for concurrency in 1000 ; do
+for cap in 100 400; do
+	for concurrency in 200 1000 ; do
 		for preference in 3 4 5 ; do
-			./exp_pattern.sh $cap $concurrency $preference 0.05 $IsAttr
+			./exp_pattern.sh $cap $concurrency $preference 0.05 $IsVNV
 		done
 	done
 done

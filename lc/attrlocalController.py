@@ -93,16 +93,6 @@ def getNumberRequestsHigherLatency(latencies, setPoint):
 
 def getAverageServiceTime(latencies, setPoint):
 	p_avg = avg(latencies)/setPoint
-	'''
-	if(p_avg <= 0.4):
-		p_avg /= 5
-	elif(p_avg <= 0.6):
-		p_avg /= 2
-	else:
-		p_avg /= 1.5
-		
-	return 1/(e**p_avg)
-	'''
 	a = 0.99290
 	b = 0.08692
 	c = -1.12247 
@@ -129,6 +119,9 @@ def main():
 	parser.add_option("--rmIp", type="string", help="send matching values to this IP (default: %default)", default = "192.168.122.1")
 	parser.add_option("--rmPort", type="int", help="send matching values to this UDP port (default: %default)", default = 2712)
 	parser.add_option("--preference", type="int", help="user preference of response time, serviceLevel and timeout (default: %default)", default = 0)
+	parser.add_option("--w0", type="float", help="", default = 0.33)
+	parser.add_option("--w1", type="float", help="", default = 0.33)
+	parser.add_option("--w2", type="float", help="", default = 0.33)
 	(options, args) = parser.parse_args()
 
 	# Setup socket to listen for latency reports
@@ -151,11 +144,15 @@ def main():
 	thinktime = options.thinktime
 	preference_order_list = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]]
 	preference_order = preference_order_list[options.preference]
+	weights = []
+	weights[0] = options.w0
+	weights[1] = options.w1
+	weights[2] = options.w2
 	controlNO = 0
-	init_latency = 0
-	init_serviceLevel = 0
+	
 
 	# external
+	'''
 	X = []
 	preference_order.append(cap)
 	preference_order.append(concurrency)
@@ -163,12 +160,19 @@ def main():
 	Y = use_model(X, EDName)
 
 	# internal
-
+	'''
 
 	
 	# Control loop
 	while(1):
-		if(controlNO > 23):
+		if(controlNO > 1):
+			y1 = getNumberRequestsHigherLatency(latencies, setPoint)
+            y2 = serviceLevel
+            y3 = getAverageServiceTime(latencies, setPoint)
+            Y = y1 * weights[0] + y2 * weights[1] + y3 * weights[2]
+            line = ','.join([str(options.preference), str(cap), str(concurrency),str(Y)]) + '\n'
+            line = 'data: ' + line
+            logging.info(line)
 			break
 		# Wait for next control iteration or message from application
 		waitFor = max(ceil((lastControl + options.controlInterval - now()) * 1000), 1)
@@ -205,28 +209,10 @@ def main():
 				numberRequestsHigherLatency = getNumberRequestsHigherLatency(latencies, options.setPoint)
 				averageServiceTime = getAverageServiceTime(latencies, options.setPoint)
 				
-				bestweights, besty = idealWeights(preference_order, numberRequestsHigherLatency, serviceLevel, averageServiceTime, numberTries = 1000)
-				if(averageServiceTime == 0):
-					besty = 0
-
-				if(besty > Besty):
-					Besty = besty
-					Bestwights = copy.deepcopy(bestweights)
-					Bestrr = serviceLevel
-				
 		
-				'''
-				# Report performance to RM
-				matchingValue = min([ 1 - latency / options.setPoint for latency in latencies ])
-
-				#added new values
-				rmSocket.sendto(str(matchingValue), (options.rmIp, options.rmPort))
-				'''
 				# Print statistics
 				latencyStat = quartiles(latencies)
-				if(controlNO == 3):
-					init_serviceLevel = 0
-					init_latency = latencyStat[5] * 1000
+				
 				logging.info("Control No.{13} latency={0:.0f}:{1:.0f}:{2:.0f}:{3:.0f}:{4:.0f}:({5:.0f})ms y1={11:.2f} rr(y2)={6:.2f}% y3={12:.2f} weights={7} Y={8} cap={9} concurrency={10} thinktime={14} init_latency={15}ms init_serviceLevel={16}% preference={17}".format(
 					latencyStat[0] * 1000,
 					latencyStat[1] * 1000,
@@ -251,11 +237,6 @@ def main():
 								
 				controlNO += 1
 				
-				# choose random service level
-				
-				if(controlNO > 3):				
-					serviceLevel = 0.05 * (controlNO - 3)
-					serviceLevel = min(1,serviceLevel)
 				'''
 				# Execute controller
 				serviceLevel = executeController(

@@ -12,11 +12,19 @@ preference=$3
 httpmon=./httpmon
 actuator=./myactuator
 lc=./Desktop/brownout-rubis-icse2014/PHP/localController.py
-IsAttr=$5
+IsVNV=$5
 url="192.168.122.168/PHP/RandomItem.php"
 
-if [ $IsAttr -eq 0 ]; then
+if [ $IsVNV -eq 1 ]; then
 	lc=./Desktop/brownout-rubis-icse2014/PHP/brownoutLocalController.py
+fi
+
+if [ $IsVNV -eq 2 ]; then
+	lc=./Desktop/brownout-rubis-icse2014/PHP/attrLocalController.py
+	serviceLevel=$6
+	w0=$7
+	w1=$8
+	w2=$9
 fi
 
 # Helper functions
@@ -91,7 +99,11 @@ setCap $cap
 
 # start local controller
 echo $preference
-ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference" &> lc.log
+if [ $IsVNV -eq 2 ]; then
+	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference --w0 $w0 --w1 $w1 --w2 $w2" &> lc.log
+else
+	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference" &> lc.log
+fi
 lcPid=$!
 #setCap 200
 
@@ -118,10 +130,10 @@ wait $httpmonPid || true
 cd ..
 poleId=`echo $pole | tr -d .`
 serviceLevelId=`echo $serviceLevel | tr -d .`
-if [ $IsAttr -eq 1 ];then
+if [ $IsVNV -eq 0 ];then
 	echo "start process.."
 	./processLog.py $resultsdir
 	echo "end process.."
-else
+else 
 	./vnvProcessLog.py $resultsdir
 fi
