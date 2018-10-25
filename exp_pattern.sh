@@ -5,6 +5,9 @@ vmssh=czy@192.168.122.168
 vmName=vm1
 pole=0.5
 serviceLevel=0
+w0=0
+w1=0
+w2=0
 cap=$1
 concurrency=$2
 thinktime=$4
@@ -21,10 +24,10 @@ fi
 
 if [ $IsVNV -eq 2 ]; then
 	lc=./Desktop/brownout-rubis-icse2014/PHP/attrLocalController.py
-	serviceLevel=$6
-	w0=$7
-	w1=$8
-	w2=$9
+	serviceLevel=$9
+	w0=$6
+	w1=$7
+	w2=$8
 fi
 
 # Helper functions
