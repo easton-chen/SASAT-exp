@@ -24,7 +24,8 @@ fi
 
 if [ $IsVNV -eq 2 ]; then
 	lc=./Desktop/brownout-rubis-icse2014/PHP/attrLocalController.py
-	serviceLevel=$9
+	predictLatency=$9
+	serviceLevel=$10
 	w0=$6
 	w1=$7
 	w2=$8
@@ -103,7 +104,7 @@ setCap $cap
 # start local controller
 echo $preference
 if [ $IsVNV -eq 2 ]; then
-	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference --w0 $w0 --w1 $w1 --w2 $w2" &> lc.log
+	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference --w0 $w0 --w1 $w1 --w2 $w2 --predictLatency $predictLatency" &> lc.log
 else
 	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference" &> lc.log
 fi

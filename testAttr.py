@@ -13,12 +13,12 @@ for line in lines:
 	pre = args[0] + ' '
 	cap = args[1] + ' '
 	concurrency = args[2] + ' '
-	responseTime = args[3]
+	responseTime = args[3] + ' '
 	w1 = str(float(args[4])) + ' '	 
 	w2 = str(float(args[5])) + ' '
 	w3 = str(float(args[6])) + ' '
 	serviceLevel = args[7] + ' '
-	cmd = './exp_pattern.sh ' + cap + concurrency + pre + thinktime + isVNV + w1 + w2 + w3 + serviceLevel
+	cmd = './exp_pattern.sh ' + cap + concurrency + pre + thinktime + isVNV + w1 + w2 + w3 + responseTime + serviceLevel
 	print cmd
 	os.system(cmd)
 	childpid = open('childpid.txt', 'r')
