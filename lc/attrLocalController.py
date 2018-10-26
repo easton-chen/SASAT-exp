@@ -13,7 +13,7 @@ from time import sleep
 import time
 import random
 import copy
-from load_model import *
+#from load_model import *
 
 
 # Controller logic
@@ -145,7 +145,7 @@ def main():
 	thinktime = options.thinktime
 	preference_order_list = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]]
 	preference_order = preference_order_list[options.preference]
-	weights = []
+	weights = [0, 0, 0]
 	weights[0] = options.w0
 	weights[1] = options.w1
 	weights[2] = options.w2
@@ -169,12 +169,12 @@ def main():
 	while(1):
 		if(controlNO > 2):
 			y1 = getNumberRequestsHigherLatency(latencies, setPoint)
-            y2 = serviceLevel
-            y3 = getAverageServiceTime(latencies, setPoint)
-            Y = y1 * weights[0] + y2 * weights[1] + y3 * weights[2]
-            line = ','.join([str(options.preference), str(cap), str(concurrency),str(Y), str(predictLatency), str(latencyStat[5])]) + '\n'
-            line = 'data: ' + line
-            logging.info(line)
+            		y2 = serviceLevel
+            		y3 = getAverageServiceTime(latencies, setPoint)
+            		Y = y1 * weights[0] + y2 * weights[1] + y3 * weights[2]
+            		line = ','.join([str(options.preference), str(cap), str(concurrency),str(Y), str(predictLatency), str(latencyStat[5])]) + '\n'
+            		line = 'data: ' + line
+            		logging.info(line)
 			break
 		# Wait for next control iteration or message from application
 		waitFor = max(ceil((lastControl + options.controlInterval - now()) * 1000), 1)
