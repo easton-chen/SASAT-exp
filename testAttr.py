@@ -18,7 +18,7 @@ for line in lines:
 	w2 = str(float(args[5])) + ' '
 	w3 = str(float(args[6])) + ' '
 	serviceLevel = args[7] + ' '
-	cmd = './exp_pattern.sh ' + cap + concurrency + pre + thinktime + isVNV + w1 + w2 + w3 + responseTime + serviceLevel
+	cmd = './exp_pattern.sh ' + cap + concurrency + pre + thinktime + isVNV + w1 + w2 + w3 + serviceLevel
 	print cmd
 	os.system(cmd)
 	childpid = open('childpid.txt', 'r')

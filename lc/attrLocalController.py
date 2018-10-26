@@ -122,7 +122,7 @@ def main():
 	parser.add_option("--w0", type="float", help="", default = 0.33)
 	parser.add_option("--w1", type="float", help="", default = 0.33)
 	parser.add_option("--w2", type="float", help="", default = 0.33)
-	parser.add_option("--predictLatency", type="float", help="", default = 0)
+	#parser.add_option("--predictLatency", type="float", help="", default = 0)
 	(options, args) = parser.parse_args()
 
 	# Setup socket to listen for latency reports
@@ -139,7 +139,7 @@ def main():
 	lastTotalRequests = 0
 	timestampedLatencies = [] # tuples of timestamp, latency
 	totalRequests = 0
-	serviceLevel = options.serviceLevel
+	serviceLevel = options.serviceLevel / 100
 	cap = options.cap
 	concurrency = options.concurrency
 	thinktime = options.thinktime
@@ -150,7 +150,7 @@ def main():
 	weights[1] = options.w1
 	weights[2] = options.w2
 	controlNO = 0
-	predictLatency = options.predictLatency
+	#predictLatency = options.predictLatency
 	
 
 	# external
@@ -168,11 +168,11 @@ def main():
 	# Control loop
 	while(1):
 		if(controlNO > 2):
-			y1 = getNumberRequestsHigherLatency(latencies, setPoint)
+			y1 = getNumberRequestsHigherLatency(latencies, options.setPoint)
             		y2 = serviceLevel
-            		y3 = getAverageServiceTime(latencies, setPoint)
+            		y3 = getAverageServiceTime(latencies, options.setPoint)
             		Y = y1 * weights[0] + y2 * weights[1] + y3 * weights[2]
-            		line = ','.join([str(options.preference), str(cap), str(concurrency),str(Y), str(predictLatency), str(latencyStat[5])]) + '\n'
+            		line = ','.join([str(options.preference), str(cap), str(concurrency),str(Y), str(latencyStat[5])]) + '\n'
             		line = 'data: ' + line
             		logging.info(line)
 			break

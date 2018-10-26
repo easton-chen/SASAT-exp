@@ -24,8 +24,7 @@ fi
 
 if [ $IsVNV -eq 2 ]; then
 	lc=./Desktop/brownout-rubis-icse2014/PHP/attrLocalController.py
-	predictLatency=$9
-	serviceLevel=$10
+	serviceLevel=$9
 	w0=$6
 	w1=$7
 	w2=$8
