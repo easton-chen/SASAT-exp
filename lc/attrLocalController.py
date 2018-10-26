@@ -211,11 +211,12 @@ def main():
 				numberRequestsHigherLatency = getNumberRequestsHigherLatency(latencies, options.setPoint)
 				averageServiceTime = getAverageServiceTime(latencies, options.setPoint)
 				
+				
 		
 				# Print statistics
 				latencyStat = quartiles(latencies)
 				
-				logging.info("Control No.{13} latency={0:.0f}:{1:.0f}:{2:.0f}:{3:.0f}:{4:.0f}:({5:.0f})ms y1={11:.2f} rr(y2)={6:.2f}% y3={12:.2f} weights={7} Y={8} cap={9} concurrency={10} thinktime={14} init_latency={15}ms init_serviceLevel={16}% preference={17}".format(
+				logging.info("Control No.{9} latency={0:.0f}:{1:.0f}:{2:.0f}:{3:.0f}:{4:.0f}:({5:.0f})ms  rr={6:.2f}%   cap={7} concurrency={8} thinktime={10} preference={11}".format(
 					latencyStat[0] * 1000,
 					latencyStat[1] * 1000,
 					latencyStat[2] * 1000,
@@ -223,16 +224,10 @@ def main():
 					latencyStat[4] * 1000,
 					latencyStat[5] * 1000,
 					serviceLevel * 100,
-					bestweights,
-					besty,
 					cap,
 					concurrency,
-					averageServiceTime,
-					numberRequestsHigherLatency,
 					controlNO,
 					thinktime,
-					init_latency,
-					init_serviceLevel * 100,
 					options.preference
 				))	
 				logging.getLogger().handlers[0].flush()	
