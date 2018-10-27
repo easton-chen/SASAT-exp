@@ -103,7 +103,7 @@ setCap $cap
 # start local controller
 echo $preference
 if [ $IsVNV -eq 2 ]; then
-	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference --w0 $w0 --w1 $w1 --w2 $w2 --predictLatency $predictLatency" &> lc.log
+	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference --w0 $w0 --w1 $w1 --w2 $w2" &> lc.log
 else
 	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference" &> lc.log
 fi

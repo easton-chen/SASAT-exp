@@ -1,9 +1,16 @@
+#!/usr/bin/env python
 import os
 import re
+from optparse import OptionParser
 
-expArgs = open("testdata.txt", "r")
+parser = OptionParser()
+parser.add_option("--file", type="string", help="use this input file (default: %default)", default = "testdata.txt")
+(options, args) = parser.parse_args()
+testFile = options.file
+
+expArgs = open(testFile, "r")
 lines = expArgs.readlines()
-thinktime = '0.05 '
+thinktime = '0.01 '
 isVNV = '1'
 for line in lines:
 	os.system('./resume_vm.sh')
