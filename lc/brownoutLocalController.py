@@ -139,6 +139,7 @@ def main():
 	thinktime = options.thinktime
 	setPoint = options.setPoint
     	flag = 0
+	contorlNo = 0
         preference_order_list = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]]
 	preference_order = preference_order_list[options.preference]
         weights = [0, 0, 0]
@@ -171,7 +172,7 @@ def main():
 			# Do we have new reports?
 			if latencies:
                                 # if converge        
-                                if abs(serviceLevel - lastServiceLevel) <= 0.01:
+                                if abs(serviceLevel - lastServiceLevel) <= 0.01 and contorlNo > 1:
         	    	                flag += 1
 				else:
 					flag = 0
@@ -219,6 +220,7 @@ def main():
 				logging.info("No traffic since last control interval.")
 			lastControl = _now
 			lastTotalRequests = totalRequests
+			contorlNo += 1
 	
 
 if __name__ == "__main__":
