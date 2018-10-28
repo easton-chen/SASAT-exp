@@ -172,7 +172,7 @@ def main():
 			# Do we have new reports?
 			if latencies:
                                 # if converge        
-                                if abs(serviceLevel - lastServiceLevel) <= 0.01 and contorlNo > 1:
+                                if abs(serviceLevel - lastServiceLevel) <= 0.01 and contorlNo > 5:
         	    	                flag += 1
 				else:
 					flag = 0

@@ -10,7 +10,7 @@ testFile = options.file
 
 expArgs = open(testFile, "r")
 lines = expArgs.readlines()
-thinktime = '0.2 '
+thinktime = '0.05 '
 isVNV = '1 '
 for line in lines:
 	os.system('./resume_vm.sh')
