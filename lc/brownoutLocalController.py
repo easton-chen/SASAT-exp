@@ -180,7 +180,7 @@ def main():
                                         y2 = serviceLevel
                                         y3 = getAverageServiceTime(latencies, setPoint)
                                         Y = y1 * weights[0] + y2 * weights[1] + y3 * weights[2]
-                                        line = ','.join([str(options.preference), str(cap), str(concurrency),str(Y),str(latencyStat[5])]) + '\n'
+                                        line = ','.join([str(options.preference), str(cap), str(concurrency),str(Y),str(latencyStat[5]),str(serviceLevel)]) + '\n'
                                         line = 'data: ' + line
                                         logging.info(line)
                                         break
