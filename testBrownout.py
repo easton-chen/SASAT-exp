@@ -11,7 +11,7 @@ testFile = options.file
 expArgs = open(testFile, "r")
 lines = expArgs.readlines()
 thinktime = '0.05 '
-isVNV = '1'
+isVNV = '1 '
 for line in lines:
 	os.system('./resume_vm.sh')
 	line = line.replace('[','')
@@ -24,7 +24,7 @@ for line in lines:
 	w1 = args[4] + ' '	 
 	w2 = args[5] + ' '
 	w3 = args[6] + ' '
-	cmd = './exp_pattern.sh ' + cap + concurrency + pre + thinktime + isVNV + w1 + w2 + w3
+	cmd = './exp_pattern.sh ' + cap + concurrency + pre + thinktime + isVNV
 	print cmd
 	os.system(cmd)
 	childpid = open('childpid.txt', 'r')

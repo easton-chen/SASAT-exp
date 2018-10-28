@@ -20,9 +20,6 @@ url="192.168.122.168/PHP/RandomItem.php"
 
 if [ $IsVNV -eq 1 ]; then
 	lc=./Desktop/brownout-rubis-icse2014/PHP/brownoutLocalController.py
-	w0=$6
-	w1=$7
-	w2=$8
 fi
 
 if [ $IsVNV -eq 2 ]; then
@@ -105,7 +102,7 @@ setCap $cap
 
 # start local controller
 echo $preference
-if [ $IsVNV -ne 0 ]; then
+if [ $IsVNV -eq 2 ]; then
 	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference --w0 $w0 --w1 $w1 --w2 $w2" &> lc.log
 else
 	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference" &> lc.log

@@ -113,9 +113,9 @@ def main():
 	parser.add_option("--rmIp", type="string", help="send matching values to this IP (default: %default)", default = "192.168.122.1")
 	parser.add_option("--rmPort", type="int", help="send matching values to this UDP port (default: %default)", default = 2712)
 	parser.add_option("--preference", type="int", help="user preference of response time, serviceLevel and timeout (default: %default)", default = 0)
-	parser.add_option("--w0", type="float", help="", default = 0.33)
-	parser.add_option("--w1", type="float", help="", default = 0.33)
-	parser.add_option("--w2", type="float", help="", default = 0.33)
+	parser.add_option("--w0", type="float", help="", default = 0.5)
+	parser.add_option("--w1", type="float", help="", default = 0.1)
+	parser.add_option("--w2", type="float", help="", default = 0.4)
 	(options, args) = parser.parse_args()
 
 	# Setup socket to listen for latency reports
@@ -142,7 +142,6 @@ def main():
         preference_order_list = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]]
 	preference_order = preference_order_list[options.preference]
         weights = [0, 0, 0]
-	weights = [0, 0, 0]
 	weights[0] = options.w0
 	weights[1] = options.w1
 	weights[2] = options.w2
