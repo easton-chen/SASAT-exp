@@ -58,44 +58,26 @@ for directory in args:
 	totalRequests = 0
 	totalErrors = 0
 	totalRecommendations = 0
-	BestY = 0
-	BestLine = ''
-	preference_order_list = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]]
 	
+
+	traindata = open("env_ss_data.txt", "a")
 	for line in lcLogLines:
 		try:
 			No = int(re.search("No.([0-9]+)",line).group(1))
-			Y = float(re.search("Y=([0-9.]+)",line).group(1))
-			if(Y > BestY and No >= 3):
-				BestY = Y
-				BestLine = line
+			CPU_cap = int(re.search("cap=([0-9]+)",line).group(1))
+			concurrency = int(re.search("concurrency=([0-9]+)",line).group(1))
+			thinktime = float(re.search("thinktime=([0-9.]+)",line).group(1))
+			response_time = int(re.search(":\(([0-9]+)",line).group(1))
+			uLatency = float(re.search("uLatency=([0-9.]+)",line).group(1))
+			uTimeout = float(re.search("uTimeout=([0-9.]+)",line).group(1))
+			serviceLevel = int(re.search("serviceLevel=([0-9]+)",line).group(1))
+			# generate output data
+			data_line = ','.join([str(CPU_cap), str(concurrency), str(thinktime), str(serviceLevel), str(uLatency), str(uTimeout)]) + '\n'
+			traindata.write(data_line)
 		except AttributeError:
 			pass
 			#print("ignore")
+	traindata.close()
 	
-	
-	# generate output data
-	internal_line = ''
-	external_line = ''
-	CPU_cap = int(re.search("cap=([0-9]+)",BestLine).group(1))
-	concurrency = int(re.search("concurrency=([0-9]+)",BestLine).group(1))
-	response_time = int(re.search(":\(([0-9]+)",BestLine).group(1))
-	init_latency = int(re.search("init_latency=([0-9]+)",BestLine).group(1))
-	init_serviceLevel = int(re.search("init_serviceLevel=([0-9]+)",BestLine).group(1))
-	new_serviceLevel = int(re.search("rr\(y2\)=([0-9]+)",BestLine).group(1))
-	preference = int(re.search("preference=([0-9]+)",BestLine).group(1))
-	preference_order = preference_order_list[preference]
-	weights = re.search("weights=(\[.+\])", BestLine).group(1)
-
-	external_line = ','.join([str(preference_order),str(CPU_cap),str(concurrency),str(init_latency),weights]) + '\n'
-	internal_line = ','.join([str(init_latency), weights, str(new_serviceLevel)]) + '\n'
-
-	# write to files
-	traindata_internal = open("internal_data_new.txt", "a")
-	traindata_internal.write(internal_line)
-	traindata_internal.close()
-	traindata_external = open("external_data_new.txt", "a")
-	traindata_external.write(external_line)
-	traindata_external.close()
 	print("data writen to file")
 

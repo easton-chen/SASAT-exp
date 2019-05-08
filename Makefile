@@ -12,7 +12,8 @@ clean:
 	rm -f *.o myactuator httpmon
 
 clear:
-	rm -rf exp_2018*
+	rm -rf exp_2019*
 
 delete:
-	rm -f internal_data.txt external_data.txt
+	rm -f env_ss_data.txt
+

@@ -5,29 +5,22 @@ vmssh=czy@192.168.122.168
 vmName=vm1
 pole=0.5
 serviceLevel=0
-w0=0
-w1=0
-w2=0
 cap=$1
 concurrency=$2
-thinktime=$4
-preference=$3
+thinktime=$3
 httpmon=./httpmon
 actuator=./myactuator
-lc=./Desktop/brownout-rubis-icse2014/PHP/localController.py
-IsVNV=$5
+lc=./Desktop/brownout-rubis-icse2014/PHP/ppLocalController.py
+flag=$4
 url="192.168.122.168/PHP/RandomItem.php"
 
-if [ $IsVNV -eq 1 ]; then
+if [ $flag -eq 1 ]; then
 	lc=./Desktop/brownout-rubis-icse2014/PHP/brownoutLocalController.py
 fi
 
-if [ $IsVNV -eq 2 ]; then
+if [ $flag -eq 2 ]; then
 	lc=./Desktop/brownout-rubis-icse2014/PHP/attrLocalController.py
-	serviceLevel=$9
-	w0=$6
-	w1=$7
-	w2=$8
+	serviceLevel=$5
 fi
 
 # Helper functions
@@ -101,12 +94,7 @@ setCap $cap
 #sleep 300
 
 # start local controller
-echo $preference
-if [ $IsVNV -eq 2 ]; then
-	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference --w0 $w0 --w1 $w1 --w2 $w2" &> lc.log
-else
-	ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime --preference $preference" &> lc.log
-fi
+ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime" &> lc.log
 lcPid=$!
 #setCap 200
 
@@ -133,10 +121,6 @@ wait $httpmonPid || true
 cd ..
 poleId=`echo $pole | tr -d .`
 serviceLevelId=`echo $serviceLevel | tr -d .`
-if [ $IsVNV -eq 0 ];then
-	echo "start process.."
-	./processLog.py $resultsdir
-	echo "end process.."
-else 
-	./vnvProcessLog.py $resultsdir
-fi
+
+./processLog.py $resultsdir
+
