@@ -1,6 +1,7 @@
 #!/bin/bash
 
 make clear
+make delete
 ./resume_vm.sh
 
 for cap in 100 200 300 400; do
