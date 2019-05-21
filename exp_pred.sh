@@ -4,9 +4,10 @@
 vmssh=czy@192.168.122.168
 vmName=vm1
 pole=0.5
-serviceLevel=$3
+serviceLevel=$4
 cap=$1
-thinktime=$2
+concurrency=$2
+thinktime=$3
 httpmon=./httpmon
 actuator=./myactuator
 lc=./Desktop/brownout-rubis-icse2014/PHP/ppLocalController.py
@@ -48,7 +49,7 @@ cd $resultsdir
 
 # make sure environment is clean
 pkill -f httpmon || true
-ssh $vmssh "pkill -f pplocalController.py" || true
+ssh $vmssh "pkill -f ppLocalController.py" || true
 
 # start (but do not activate) http client
 mkfifo httpmon.fifo
@@ -65,22 +66,15 @@ exec 8> exp.fifo
 # output starting parameters
 ( set -o posix ; set ) > params # XXX: perhaps too exhaustive
 
-sleep 5 # let system settle
+sleep 3 # let system settle
 setStart
 setThinkTime $thinktime
 setCap $cap
+setConcurrency $concurrency
 
 # start local controller
-ssh $vmssh "$lc --pole $pole --serviceLevel $serviceLevel --cap $cap --concurrency $concurrency --thinktime $thinktime" &> lc.log
+ssh $vmssh "$lc --pole $pole --concurrency $concurrency --serviceLevel $serviceLevel --cap $cap --thinktime $thinktime" &> lc.log 
 lcPid=$!
-
-# change concurrency
-while read myline
-do
-	echo "Concurrency:"$myline
-	setConcurrency $myline
-	sleep 10
-done < dataFile.txt
 
 # stop experiment log channel
 kill $expLogPid

@@ -60,7 +60,7 @@ for directory in args:
 	totalRecommendations = 0
 	
 
-	traindata = open("env_ss_data.txt", "a")
+	traindata = open("env_ss_data.txt", "a+")
 	for line in lcLogLines:
 		try:
 			No = int(re.search("No.([0-9]+)",line).group(1))
